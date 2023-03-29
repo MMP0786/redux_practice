@@ -2,17 +2,16 @@ import logo from './logo.svg';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { store } from './component/Store';
-import { Sell } from './Action';
+import { Buy, Sell } from './Action';
 
 function App() {
- const selector= useSelector(store=> store.noOfCar)
+ const selector1= useSelector(store=> store.noOfCars)
  const dispatch = useDispatch()
  
- const handleBuy = ()=>{
+ const handleBuy = (id)=>{
+  console.log("first")
   return (
-    dispatch({
-      type: "Buy_car"
-    })
+    dispatch(Buy(id))
   )
  }
  const handleSell = ()=>{
@@ -20,11 +19,19 @@ function App() {
     dispatch(Sell())
   )
  }
+ console.log(selector1)
   return (
     <div className="App">
       <p>Item's are here</p>
-      {selector}
-      <button onClick={handleBuy}>Buy</button>
+      {selector1.map((ele)=> {
+        return(
+          <div key={ele.id}>
+              <div >{ele.name}</div>
+              <br></br>
+             <button onClick={()=>handleBuy(ele.id)}>Buy</button>
+          </div>
+        )
+      })}
       <button onClick={handleSell}>Sell</button>
     </div>
   );
